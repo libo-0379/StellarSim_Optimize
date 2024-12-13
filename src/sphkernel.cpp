@@ -173,9 +173,9 @@ void getDensity(double** &pos, double &m, const double h)
 {
   getPairwiseSeparations(pos);
   getW(dx, dy, dz, h);
-  // 1. todo 访问顺序 
-  // 2. 内层 simd
-  // 3. 外层omp有数据竞争,内层omp可能伪共享, omp 不适用
+  // 1. 改变访问顺序
+  // 2. 内层可 simd
+  // 3. 外层omp有数据竞争,内层omp伪共享(或者使用cacheline大小为步进), omp 不适用
   // 4. 简化计算公式 rho[j] += W[i][j] rho[i] *= m；W 每一列计算出一个 rho[j] 此处不适用
   #ifdef OPT_BASE
     for(int i = 0; i < N; i++) 
